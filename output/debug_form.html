@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Webhook Debugger</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        input {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Webhook Debugger (Round 2)</h1>
+    <p>Let's test the script one more time. Click submit.</p>
+
+    <form
+        action="https://script.google.com/macros/s/AKfycbx-puj5IkfLFAjzwrykutro1JcxYJmMzj35RmVbOQ-BNsLYP1Al8HGJEWq22VxxglyeTg/exec"
+        method="POST">
+        <label>Email:</label>
+        <input type="email" name="email" value="debug_round_2@example.com" required>
+
+        <label>Niche:</label>
+        <input type="text" name="niche" value="debug_test_2">
+
+        <label>Niche Name:</label>
+        <input type="text" name="niche_name" value="Debug Page 2">
+
+        <button type="submit">Test Webhook Again</button>
+    </form>
+</body>
+
+</html>
