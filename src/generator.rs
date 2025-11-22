@@ -102,25 +102,34 @@ fn main() -> Result<(), Box<dyn Error>> {
     fs::write("output/index.html", index_html)?;
     println!("✅ Generated: output/index.html");
 
+    // Get current date
+    let today = chrono::Utc::now().format("%Y-%m-%d").to_string();
+
     // Generate Sitemap
     println!("🗺️ Generating Sitemap...");
     let mut sitemap = String::from(r#"<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blatik.github.io/rustdev-network/</loc>
-    <lastmod>2025-11-22</lastmod>
+    <lastmod>"#);
+    sitemap.push_str(&today);
+    sitemap.push_str(r#"</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://blatik.github.io/rustdev-network/about.html</loc>
-    <lastmod>2025-11-22</lastmod>
+    <lastmod>"#);
+    sitemap.push_str(&today);
+    sitemap.push_str(r#"</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://blatik.github.io/rustdev-network/thank-you.html</loc>
-    <lastmod>2025-11-22</lastmod>
+    <lastmod>"#);
+    sitemap.push_str(&today);
+    sitemap.push_str(r#"</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -129,11 +138,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     for site in &sites_data {
         sitemap.push_str(&format!(r#"  <url>
     <loc>https://blatik.github.io/rustdev-network/{}/</loc>
-    <lastmod>2025-11-22</lastmod>
+    <lastmod>{}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-"#, site.slug));
+"#, site.slug, today));
     }
 
     sitemap.push_str("</urlset>");
