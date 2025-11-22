@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Google Sheets Connection Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .error {
+            background: #fee;
+            color: #c00;
+            border: 1px solid #fcc;
+        }
+
+        .success {
+            background: #efe;
+            color: #0c0;
+            border: 1px solid #cfc;
+        }
+
+        .info {
+            background: #eef;
+            color: #00c;
+            border: 1px solid #ccf;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔌 Google Sheets Diagnostic</h1>
+
+    <div id="config-section">
+        <h3>1. Configuration</h3>
+        <label>Google Apps Script Webhook URL:</label>
+        <input type="text" id="webhook-url" placeholder="https://script.google.com/macros/s/.../exec"
+            value="https://script.google.com/macros/s/AKfycbwo7-gDQDoFHlBhedX8yo8AN9u3oiU2kiVzv39_XFJW_0GJlAVxfyJzbMQbH1vXqLzt3w/exec">
+        <p style="font-size: 0.8em; color: #666;">Make sure your script is deployed as "Web App", Execute as "Me",
+            Access "Anyone".</p>
+    </div>
+
+    <div id="test-section">
+        <h3>2. Test Data</h3>
+        <input type="email" id="test-email" value="diagnostic-test@example.com">
+        <button onclick="runTest()" id="test-btn">Run Connection Test</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        function log(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = `${new Date().toLocaleTimeString()} - ${msg}`;
+            document.getElementById('results').appendChild(div);
+            console.log(msg);
+        }
+
+        async function runTest() {
+            const url = document.getElementById('webhook-url').value.trim();
+            const email = document.getElementById('test-email').value;
+            const btn = document.getElementById('test-btn');
+
+            if (!url) {
+                log('Error: URL is empty', 'error');
+                return;
+            }
+
+            document.getElementById('results').innerHTML = '';
+            btn.disabled = true;
+            log('Starting test...', 'info');
+
+            const data = {
+                email: email,
+                niche: "999",
+                niche_name: "Diagnostic Test",
+                created_at: new Date().toISOString(),
+                id: Date.now()
+            };
+
+            try {
+                log(`Sending data to: ${url.substring(0, 50)}...`, 'info');
+
+                // Method 1: no-cors (Standard for client-side to Google Sheets)
+                log('Attempting fetch with mode: no-cors...', 'info');
+                await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                log('✅ Request sent successfully! (no-cors mode)', 'success');
+                log('👉 CHECK YOUR GOOGLE SHEET NOW.', 'success');
+                log('If data is NOT there, the issue is likely the Script Deployment settings.', 'error');
+                log('Verify: Deploy > New Deployment > Web App > Who has access: "Anyone"', 'info');
+
+            } catch (e) {
+                log(`❌ Network Error: ${e.message}`, 'error');
+                log('This usually means a blocked request or invalid URL.', 'error');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
