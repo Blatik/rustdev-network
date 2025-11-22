@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://blatik.github.io/rustdev-network/sitemap.xml
