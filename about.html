@@ -443,8 +443,12 @@
                     });
 
                     if (response.ok) {
-                        // Redirect to thank you page
-                        window.location.href = 'thank-you.html';
+                        const data = await response.json();
+                        if (data.success && data.redirect) {
+                            window.location.href = data.redirect;
+                        } else {
+                            window.location.href = 'thank-you.html';
+                        }
                     } else {
                         const text = await response.text();
                         alert(`Error: ${response.status} ${response.statusText}\nDetails: ${text}`);

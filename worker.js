@@ -37,7 +37,13 @@ async function handleLeadSubmission(request, env) {
 
         // Validate email
         if (!email || !email.includes('@')) {
-            return new Response('Invalid email', { status: 400 });
+            return new Response('Invalid email', {
+                status: 400,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'text/plain',
+                }
+            });
         }
 
         // Insert into D1 database
@@ -55,11 +61,30 @@ async function handleLeadSubmission(request, env) {
             id: result.meta.last_row_id,
         });
 
-        // Redirect to thank-you page
-        return Response.redirect('https://blatik.github.io/rustdev-network/thank-you.html', 302);
+        // Return JSON success response with CORS headers
+        return new Response(JSON.stringify({
+            success: true,
+            message: 'Lead submitted successfully',
+            redirect: 'https://blatik.github.io/rustdev-network/thank-you.html'
+        }), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            }
+        });
     } catch (error) {
         console.error('Error handling lead:', error);
-        return new Response('Internal Server Error: ' + error.message, { status: 500 });
+        return new Response(JSON.stringify({
+            success: false,
+            error: 'Internal Server Error: ' + error.message
+        }), {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            }
+        });
     }
 }
 
