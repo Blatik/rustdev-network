@@ -55,7 +55,7 @@ wrangler secret put TELEGRAM_BOT_TOKEN
 
 When prompted, paste:
 ```
-8574716516:AAEzjpntgYn3vtrmg0TNK-lV1MuE7pLY7gM
+YOUR_TELEGRAM_BOT_TOKEN_HERE
 ```
 
 ---

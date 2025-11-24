@@ -25,7 +25,7 @@ wrangler d1 execute rustdev-leads --file=schema.sql
 ```bash
 wrangler secret put TELEGRAM_BOT_TOKEN
 ```
-Paste: `8574716516:AAEzjpntgYn3vtrmg0TNK-lV1MuE7pLY7gM`
+Paste: `YOUR_TELEGRAM_BOT_TOKEN_HERE` (get from @BotFather)
 
 ### 5. Test Locally
 ```bash
