@@ -1,49 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+#!/usr/bin/env python3
+"""
+Update all pages to Premium Titanium Theme - Solid & Sophisticated
+"""
 
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E5GS9HPF6W"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+import re
+from pathlib import Path
 
-        gtag('config', 'G-E5GS9HPF6W');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Primary Meta Tags -->
-    <title>Database Migration Tool | RustDev Network - Professional Rust Development</title>
-    <meta name="title" content="Database Migration Tool | RustDev Network">
-    <meta name="description" content="Migrate millions of records between databases safely. PostgreSQL, MySQL, MongoDB - we handle schema conversion and data validation.">
-    <meta name="keywords" content="database migration, data migration tool, postgres migration, mysql migration, rust development, rust programming, rust services">
-    <meta name="author" content="RustDev Network">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
-    <meta name="google-site-verification" content="TGXIj-BADYmkpKvE0PDZfOatJPmLcgczg3zfKI7ukWg" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://blatik.github.io/rustdev-network/database-migration-tool/">
-    <meta property="og:title" content="Database Migration Tool | RustDev Network">
-    <meta property="og:description" content="Migrate millions of records between databases safely. PostgreSQL, MySQL, MongoDB - we handle schema conversion and data validation.">
-    <meta property="og:site_name" content="RustDev Network">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://blatik.github.io/rustdev-network/database-migration-tool/">
-    <meta property="twitter:title" content="Database Migration Tool | RustDev Network">
-    <meta property="twitter:description" content="Migrate millions of records between databases safely. PostgreSQL, MySQL, MongoDB - we handle schema conversion and data validation.">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://blatik.github.io/rustdev-network/database-migration-tool/">
-
-    <!-- Favicon -->
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦀</text></svg>">
-    <style>
+# Premium Titanium Theme CSS - Solid & Sophisticated
+TITANIUM_CSS = """
         * {
             margin: 0;
             padding: 0;
@@ -311,92 +275,44 @@
                 padding: 16px 28px;
             }
         }
-    </style>
-</head>
+"""
 
-<body>
-    <nav class="main-nav">
-        <a href="../index.html" class="nav-logo">RustDev Network</a>
-        <div class="nav-links">
-            <a href="../index.html">Home</a>
-            <a href="../about.html">About</a>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="badge">🦀 Rust Development</div>
-        <h1>Automated Database Migrations</h1>
-        <p>Migrate millions of records between databases safely. PostgreSQL, MySQL, MongoDB - we handle schema conversion and data validation.</p>
-        <div id="success-message" style="display: none;">
-            <div class="checkmark">
-                <svg viewBox="0 0 52 52"
-                    style="width: 50px; height: 50px; stroke: #10b981; stroke-width: 3; fill: none;">
-                    <circle cx="26" cy="26" r="25"
-                        style="stroke-dasharray: 166; stroke-dashoffset: 166; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;">
-                    </circle>
-                    <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"
-                        style="stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;">
-                    </path>
-                </svg>
-            </div>
-            <h2>Thank You!</h2>
-            <p>We've received your request. We'll be in touch shortly.</p>
-        </div>
+def update_html_file(file_path):
+    """Update CSS in a single HTML file"""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Find and replace the <style> section
+        pattern = r'<style>.*?</style>'
+        replacement = f'<style>{TITANIUM_CSS}    </style>'
+        
+        if re.search(pattern, content, re.DOTALL):
+            updated_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+            
+            # Write back
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(updated_content)
+            
+            print(f"✅ Updated: {file_path}")
+            return True
+        
+        return False
+    except Exception as e:
+        print(f"❌ Error updating {file_path}: {e}")
+        return False
 
-        <form id="lead-form" action="https://rustdev-network-worker.blatik-short.workers.dev/api/leads" method="POST">
-            <input type="email" name="email" id="email" placeholder="Enter your email" required>
-            <input type="hidden" name="niche" value="15">
-            <input type="hidden" name="niche_name" value="Database Migration Tool">
-            <button type="submit">Get Free Consultation</button>
-        </form>
+def main():
+    """Find and update all HTML files"""
+    base_dir = Path(__file__).parent
+    updated_count = 0
+    
+    # Find all index.html files in subdirectories
+    for html_file in base_dir.rglob("*/index.html"):
+        if update_html_file(html_file):
+            updated_count += 1
+    
+    print(f"\n✨ Updated {updated_count} files to Premium Titanium Theme")
 
-        <script>
-            const form = document.getElementById('lead-form');
-            const submitBtn = form.querySelector('button');
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const originalText = submitBtn.textContent;
-                submitBtn.textContent = 'Sending...';
-                submitBtn.disabled = true;
-
-                try {
-                    const formData = new FormData(form);
-                    const searchParams = new URLSearchParams();
-                    for (const pair of formData) {
-                        searchParams.append(pair[0], pair[1]);
-                    }
-
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        body: searchParams,
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        }
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.success && data.redirect) {
-                            window.location.href = data.redirect;
-                        } else {
-                            window.location.href = '../thank-you.html';
-                        }
-                    } else {
-                        const text = await response.text();
-                        alert(`Error: ${response.status} ${response.statusText}\nDetails: ${text}`);
-                        submitBtn.textContent = originalText;
-                        submitBtn.disabled = false;
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert(`Network Error: ${error.message}`);
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }
-            });
-        </script>
-    </div>
-</body>
-
-</html>
+if __name__ == "__main__":
+    main()
